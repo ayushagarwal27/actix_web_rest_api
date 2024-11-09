@@ -8,6 +8,11 @@ default-run = "tutor_service"
 actix-web = "4.2.1"
 actix-rt = "2.7.0"
 
+# Data Serialization
+serde = { version = "1.0.110", features = ["derive"] }
+# Utilities
+chrono = { version = "0.4.11", features = ["serde"] }
+
 [[bin]]
 name = "basic-server"
 
