@@ -36,6 +36,17 @@ pub async fn get_courses_for_tutor(app_state: web::Data<AppState>, params: web::
     }
 }
 
+pub async fn get_course_details(app_state: web::Data<AppState>, params: web::Path<(i32, i32)>) -> HttpResponse {
+    let (tutor_id, course_id) = params.into_inner();
+    let selected_course = app_state.courses.lock().unwrap().clone().into_iter().find(|course| course.tutor_id == tutor_id && course.course_id == Some(course_id)).ok_or("Course not found");
+
+    if let Ok(course) = selected_course {
+        HttpResponse::Ok().json(course)
+    } else {
+        HttpResponse::Ok().json("Course not found".to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -71,5 +82,18 @@ mod tests {
         let tutor_id = web::Path::from((1));
         let res = get_courses_for_tutor(app_state, tutor_id).await;
         assert_eq!(res.status(), StatusCode::OK);
+    }
+
+    #[actix_rt::test]
+    async fn get_single_course_success() {
+        let app_state = web::Data::new(AppState {
+            health_check_response: "".to_string(),
+            visit_count: Mutex::new(0),
+            courses: Mutex::new(vec![]),
+        });
+
+        let params = web::Path::from((1, 1));
+        let res = get_course_details(app_state, params).await;
+        assert_eq!(res.status(), StatusCode: Ok());
     }
 }
