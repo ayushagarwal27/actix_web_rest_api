@@ -1,0 +1,23 @@
+[package]
+name = "tutor-db"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+#Actix web framework and run-time
+actix-web = "4.1.0"
+actix-rt = "2.10.0"
+# Environment Variables access libraries
+dotenv = "0.15.0"
+
+# Postgres access libraries
+sqlx = { version = "0.6.2", default-features = false, features = ["postgres", "runtime-tokio-native-tls", "macros", "chrono"] }
+
+# Data serialisation library
+serde = { version = "1.0.144", features = ["derive"] }
+
+# Other Utils
+chrono = { version = "0.4.22", features = ["serde"] }
+
+# Openssl for build
+openssl = { version = "0.10.41", features = ["vendored"] }
