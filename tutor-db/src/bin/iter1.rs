@@ -24,7 +24,12 @@ async fn main() -> io::Result<()> {
 
     let mut course_list = vec![];
     for course_row in course_rows {
-        course_list.push(Course { course_id: course_row.course_id, tutor_id: course_row.tutor_id, course_name: course_row.course_name, posted_time: Some(chrono::NaiveDateTime::from(course_row.posted_time.unwrap())) })
+        course_list.push(Course {
+            course_id: course_row.course_id,
+            tutor_id: course_row.tutor_id,
+            course_name: course_row.course_name,
+            posted_time: Some(chrono::NaiveDateTime::from(course_row.posted_time.unwrap())),
+        })
     }
     println!("Courses = {:?}", course_list);
     Ok(())
